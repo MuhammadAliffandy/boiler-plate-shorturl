@@ -48,8 +48,8 @@ app.post('/api/shorturl/', function(req, res) {
 
 });
 
-app.get('/api/shorturl/:shrturl?' , (req,res) => {
-  const short_url_check = req.params.shrturl;
+app.get('/api/shorturl/:short_url?' , (req,res) => {
+  const short_url_check = req.params.short_url;
   if(short_url_check != undefined){
     const ori = req.cookies.originalURL;
     const shrt = req.cookies.shortURL;
