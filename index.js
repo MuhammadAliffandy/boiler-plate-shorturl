@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
+const dns = require('dns');
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -24,13 +25,11 @@ app.post('/api/shorturl/', function(req, res) {
 
   const original_url = req.body.url;
   const randomNumber = Math.floor(Math.random() * 1000) + 1;
-  const url_checked = original_url.split('/');
   
-  if(url_checked[0] != 'https:'){
-    return res.json({
-      error:'invalid url'
-    })
-  }
+  dns.lookup(original_url, (err, address, family) => {
+    if (err) {
+      return res.status(400).json({ error: 'invalid URL' });
+    }})
 
   if(req.body == null){
     return res.json({
