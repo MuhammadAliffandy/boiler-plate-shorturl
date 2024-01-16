@@ -25,10 +25,15 @@ app.post('/api/shorturl/', (req, res , next) => {
 
   const original_url = req.body.url;
   const hostname = new URL(original_url).hostname;
+  const url_check = original_url.split('/')[0]
+
+  if(url_check != 'https:' && url_check != 'http:' ){
+    return res.status(400).json({ error:'invalid url'});
+  }
 
   dns.lookup(hostname, (err, address, family) => {
     if (err) {
-      return res.status(400).json({ error: 'invalid URL' });
+      return res.status(400).json({ error:'invalid url'});
     }
   
     next()
@@ -56,8 +61,8 @@ app.post('/api/shorturl/', (req, res , next) => {
 
 });
 
-app.get('/api/shorturl/:short_url?' , (req,res) => {
-  const short_url_check = req.params.short_url;
+app.get('/api/shorturl/:shorturl?' , (req,res) => {
+  const short_url_check = req.params.shorturl;
   if(short_url_check != undefined){
     const ori = req.cookies.originalURL;
     const shrt = req.cookies.shortURL;
