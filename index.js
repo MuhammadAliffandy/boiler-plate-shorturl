@@ -21,15 +21,24 @@ app.get('/', function(req, res) {
 });
 
 // Your first API endpoint
-app.post('/api/shorturl/', function(req, res) {
+app.post('/api/shorturl/', (req, res , next) => {
+
+  const original_url = req.body.url;
+  const hostname = new URL(original_url).hostname;
+
+  dns.lookup(hostname, (err, address, family) => {
+    if (err) {
+      return res.status(400).json({ error: 'invalid URL' });
+    }
+  
+    next()
+  })
+
+} , (req, res) => {
 
   const original_url = req.body.url;
   const randomNumber = Math.floor(Math.random() * 1000) + 1;
-  
-  dns.lookup(original_url, (err, address, family) => {
-    if (err) {
-      return res.status(400).json({ error: 'invalid URL' });
-    }})
+
 
   if(req.body == null){
     return res.json({
