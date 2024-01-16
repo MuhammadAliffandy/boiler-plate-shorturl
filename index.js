@@ -28,12 +28,12 @@ app.post('/api/shorturl/', (req, res , next) => {
   const url_check = original_url.split('/')[0]
 
   if(url_check != 'https:' && url_check != 'http:' ){
-    return res.status(400).json({ error:'invalid url'});
+    return res.json({ error:'invalid url'});
   }
 
   dns.lookup(hostname, (err, address, family) => {
     if (err) {
-      return res.status(400).json({ error:'invalid url'});
+      return res.json({ error:'invalid url'});
     }
   
     next()
