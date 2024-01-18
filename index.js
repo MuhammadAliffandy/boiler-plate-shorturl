@@ -7,7 +7,7 @@ const dns = require('dns');
 const mongoose = require('mongoose');
 const UrlModel = require('./urlModel')
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 
